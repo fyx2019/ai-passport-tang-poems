@@ -1,0 +1,33 @@
+name: Build ESP32 Firmware
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Run ESP-IDF Build
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.3
+          target: esp32c3
+          # 👉 如果你的 CMakeLists.txt 在子文件夹中，把 '.' 改为你的子文件夹名称（例如 'ai-passport'）
+          path: '.'
+          command: idf.py build
+
+      - name: Upload Firmware Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-passport-firmware
+          path: |
+            **/build/*.bin
+            **/build/bootloader/*.bin
+            **/build/partition_table/*.bin
