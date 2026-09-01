@@ -10,21 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run ESP-IDF Build
-        uses: espressif/esp-idf-ci-action@v1
+        uses: espressif/esp-idf-ci-action@9d38657f3d789ca759b2b37aaf5ceffbc42c4f0d # v1
         with:
           esp_idf_version: v5.3
           target: esp32c3
-          # 👉 如果你的 CMakeLists.txt 在子文件夹中，把 '.' 改为你的子文件夹名称（例如 'ai-passport'）
           path: '.'
           command: idf.py build
 
       - name: Upload Firmware Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf88e # v4.2.1
         with:
           name: ai-passport-firmware
           path: |
